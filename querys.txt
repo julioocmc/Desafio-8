@@ -1,0 +1,91 @@
+//////////////// BD & COLLECTIONS /////////////////
+
+use ecommerce
+db.createCollection("products")
+db.createCollection("messages")
+
+
+//////////////// 1 /////////////////
+
+db.products.insertMany([
+    {code: "EJE", title: "Producto de Prueba", price: 3500, description: "Ejemplo", urlImg: "https//:", stock: 3, timestamp: ISODate()},
+    {code: "EJE2", title: "Producto de Prueba 2", price: 3500, description: "Ejemplo 2", urlImg: "https//:", stock: 1, timestamp: ISODate()},
+    {code: "EJE3", title: "Producto de Prueba 3", price: 3500, description: "Ejemplo 3", urlImg: "https//:", stock: 4, timestamp: ISODate()},
+    {code: "EJE4", title: "Producto de Prueba 4", price: 3500, description: "Ejemplo 4", urlImg: "https//:", stock: 5, timestamp: ISODate()},
+    {code: "EJE5", title: "Producto de Prueba 5", price: 3500, description: "Ejemplo 5", urlImg: "https//:", stock: 1, timestamp: ISODate()},
+    {code: "EJE6", title: "Producto de Prueba 6", price: 3500, description: "Ejemplo 6", urlImg: "https//:", stock: 3, timestamp: ISODate()},
+    {code: "EJE7", title: "Producto de Prueba 7", price: 3500, description: "Ejemplo 7", urlImg: "https//:", stock: 5, timestamp: ISODate()},
+    {code: "EJE8", title: "Producto de Prueba 8", price: 3500, description: "Ejemplo 8", urlImg: "https//:", stock: 6, timestamp: ISODate()},
+    {code: "EJE9", title: "Producto de Prueba 9", price: 3500, description: "Ejemplo 9", urlImg: "https//:", stock: 2, timestamp: ISODate()},
+    {code: "EJE10", title: "Producto de Prueba 10", price: 3500, description: "Ejemplo 10", urlImg: "https//:", stock: 8, timestamp: ISODate()}
+]);
+
+db.messages.insertMany([
+    {userEmail: 'prueba@gmail.com', message: 'Mensaje', date: ISODate()},
+    {userEmail: 'prueba2@gmail.com', message: 'Mensaje 2', date: ISODate()},
+    {userEmail: 'prueba3@gmail.com', message: 'Mensaje 3', date: ISODate()},
+    {userEmail: 'prueba4@gmail.com', message: 'Mensaje 4', date: ISODate()},
+    {userEmail: 'prueba5@gmail.com', message: 'Mensaje 5', date: ISODate()},
+    {userEmail: 'prueba6@gmail.com', message: 'Mensaje 6', date: ISODate()},
+    {userEmail: 'prueba7@gmail.com', message: 'Mensaje 7', date: ISODate()},
+    {userEmail: 'prueba8@gmail.com', message: 'Mensaje 8', date: ISODate()},
+    {userEmail: 'prueba9@gmail.com', message: 'Mensaje 9', date: ISODate()},
+    {userEmail: 'prueba10@gmail.com', message: 'Mensaje 10', date: ISODate()}
+]);
+
+
+//////////////// 2 /////////////////
+
+(Unresolved)
+
+
+//////////////// 3 /////////////////
+
+db.products.find();
+db.messages.find();
+
+
+//////////////// 4 /////////////////
+
+db.products.estimatedDocumentCount();
+db.messages.estimatedDocumentCount();
+
+
+
+//////////////// 5 /////////////////
+
+db.products.insertOne({code: "NV", title: "Producto Nuevo", price: 45500, description: "", urlImg: "https//:", stock: 2, timestamp: ISODate()})
+
+db.products.find({"price": {$lt: 1000}}, {"title": 1, "_id": 0});
+
+db.products.find({
+        $and: 
+            [{"price": {$gte: 1000}},
+            {"price": {$lte: 3000}}]},
+            {"title": 1, "_id": 0
+        }
+);
+
+db.products.find({"price": {$gt: 3000}}, {"title": 1, "_id": 0});
+
+db.products.find({}, { title: 1, _id: 0 }).skip(2).limit(1).sort({price: 1});
+
+db.products.updateMany({"price":{$gte: 0}}, {$set: {"stock": 100}}, {upsert: true}); //en mi caso, ya había agregado el campo stock al inicio, por lo que lo va a sobreescribir
+
+db.products.updateMany({"price":{$gt: 4000}}, {$set: {"stock": 0}});
+
+db.products.deleteMany({"price": {$lt: 1000}});
+
+
+
+//////////////// 6 /////////////////
+
+db.createUser(
+    {
+      user: "pepe",
+      pwd: "asd456",
+      roles: [
+        { role: "read", db: "ecommerce" }
+      ]
+    }
+);
